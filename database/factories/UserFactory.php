@@ -2,43 +2,44 @@
 
 namespace Database\Factories;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
-/**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\User>
- */
 class UserFactory extends Factory
 {
-    /**
-     * The current password being used by the factory.
-     */
-    protected static ?string $password;
+    protected $model = User::class;
 
-    /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
-     */
     public function definition(): array
     {
-        return [
-            'name' => fake()->name(),
-            'email' => fake()->unique()->safeEmail(),
-            'email_verified_at' => now(),
-            'password' => static::$password ??= Hash::make('password'),
-            'remember_token' => Str::random(10),
-        ];
-    }
+        $role = $this->faker->randomElement(['candidate','enterprise']);
 
-    /**
-     * Indicate that the model's email address should be unverified.
-     */
-    public function unverified(): static
-    {
-        return $this->state(fn (array $attributes) => [
-            'email_verified_at' => null,
-        ]);
+        return [
+            'role' => $role,
+            'name' => $this->faker->lastName,
+            'firstname' => $this->faker->firstName,
+            'email' => $this->faker->unique()->safeEmail,
+            'password' => bcrypt('password'),
+            'phone' => $this->faker->phoneNumber,
+            'city' => $this->faker->city,
+
+            // candidats
+            'profile_photo'  => $role === 'candidate' ? $this->faker->imageUrl(100, 100, 'people') : null,
+            'profile_banner' => $role === 'candidate' ? $this->faker->imageUrl(600, 200, 'business') : null,
+            'cv'             => $role === 'candidate' ? 'cv/' . $this->faker->uuid . '.pdf' : null,
+            'about'          => $role === 'candidate' ? $this->faker->paragraph() : null,
+            'expected_salary'=> $role === 'candidate' ? $this->faker->numberBetween(30000, 100000) : null,
+
+            // entreprises
+            'company_name' => $role === 'enterprise' ? $this->faker->company : null,
+            'siret' => $role === 'enterprise' ? $this->faker->numerify('#############') : null,
+            'recruitment_description' => $role === 'enterprise' ? $this->faker->paragraph() : null,
+            'team_description' => $role === 'enterprise' ? $this->faker->paragraph() : null,
+            'description' => $role === 'enterprise' ? $this->faker->paragraph() : null,
+            'logo' => $role === 'enterprise' ? $this->faker->imageUrl(100, 100, 'business') : null,
+            'website_url' => $role === 'enterprise' ? $this->faker->url : null,
+            'is_verified' => $this->faker->boolean(50),
+            'is_admin' => $this->faker->boolean(10),
+        ];
     }
 }

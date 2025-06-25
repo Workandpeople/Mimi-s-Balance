@@ -1,3 +1,11 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "bootstrap/dist/css/bootstrap.min.css";
+@import "../../public/fonts/fontAwesome/css/all.min.css";
+@import "mapbox-gl/dist/mapbox-gl.css";
+
+/* Layouts */
+
+/* Pages */
+
+/* Partials */
+
+/* Components */
