@@ -1,7 +1,7 @@
 services:
     laravel.dev:
         build:
-            context: ./docker/8.4
+            context: ./docker/8.3
             dockerfile: Dockerfile
             args:
                 WWWGROUP: '${WWWGROUP}'
