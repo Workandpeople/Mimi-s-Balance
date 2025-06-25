@@ -7,7 +7,7 @@
     ];
 @endphp
 
-<div class="position-fixed top-0 end-0 p-3" style="z-index: 1080; margin-top: 70px;">
+<div class="position-fixed top-0 end-0 p-3" style="z-index: 1080; margin-top: -10px;">
     @foreach ($alerts as $type => $data)
         @if (session($type))
             <div class="toast align-items-center {{ $data['class'] }} border-0 show mb-2" role="alert">

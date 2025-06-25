@@ -13,14 +13,7 @@
     <title>@yield('title', 'a remplir')</title>
     <meta name="description" content="@yield('description', 'a remplir')">
     <meta name="keywords" content="@yield('keywords', 'a remplir')">
-    <meta name="robots" content="index, follow">
-
-    {{-- Open Graph / Social Preview --}}
-    <meta property="og:title" content="@yield('og_title', 'a remplir')">
-    <meta property="og:description" content="@yield('og_description', 'a remplir')">
-    <meta property="og:image" content="@yield('og_image', asset('images/og-default.jpg'))">
-    <meta property="og:url" content="{{ url()->current() }}">
-    <meta name="twitter:card" content="summary_large_image">
+    <meta name="author" content="@yield('author', 'a remplir')">    
 
     {{-- CSS (via Vite) --}}
     @if (app()->environment('production'))
@@ -29,11 +22,14 @@
         @vite(['resources/js/app.js'])
     @endif
 
+    {{-- CSS personnalisé (optionnel) --}}
+    @stack('css')
+
 </head>
 <body>
 
     {{-- HEADER --}}
-    @include('partials.landing.header')
+    @include('partials.header')
 
     {{-- CONTENU PRINCIPAL --}}
     <main>
@@ -42,9 +38,9 @@
     </main>
 
     {{-- FOOTER --}}
-    @include('partials.landing.footer')
+    @include('partials.footer')
 
     {{-- JS personnalisé (optionnel) --}}
-    @yield('js')
+    @stack('js')
 </body>
 </html>
